@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                // Your build commands here
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                // Your test commands here
+            }
+        }
+        stage('Deploy to Staging') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                echo 'Deploying to staging environment...'
+                // Your deployment commands for staging here
+            }
+        }
+        stage('Deploy to Production') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo 'Deploying to production environment...'
+                // Your deployment commands for production here
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline succeeded! Notifying the team...'
+            // Add notification or other post-build actions for success
+        }
+        failure {
+            echo 'Pipeline failed! Sending notification to the team...'
+            // Add notification or other post-build actions for failure
+        }
+    }
+}
